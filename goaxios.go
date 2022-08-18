@@ -1,6 +1,7 @@
 package goaxios
 
 import (
+	"bytes"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
@@ -12,16 +13,20 @@ import (
 type GoAxios struct {
 	Url            string
 	Method         string
-	Body           string
+	Body           interface{}
+	Form           interface{}
 	Query          map[string]interface{}
-	Token          string
+	BearerToken    string
 	ResponseStruct interface{}
 	Headers        map[string]string
+	IsMultiPart    bool // if true, then the body is a multipart form
 }
 
 // a wrapper around Go's *http.Request ojbect to make it faster to run REST http requests.
-// It returns the *http.Response object and the response body as a map[string]interface{} and error (if any or nil)
-func (ga *GoAxios) RunRest() (*http.Response, interface{}, error) {
+// It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)
+func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
+
+	// TODO: validate before request
 
 	url := ga.Url + "?"
 
@@ -30,13 +35,10 @@ func (ga *GoAxios) RunRest() (*http.Response, interface{}, error) {
 		url = url + k + "=" + v.(string) + "&"
 	}
 
-	// parse body
-	reqBody := strings.NewReader(ga.Body)
-
-	client := &http.Client{}
-
 	// fake http response
 	var fail *http.Response
+	// fake response body
+	var body []byte
 
 	// response body
 	var response interface{}
@@ -44,9 +46,18 @@ func (ga *GoAxios) RunRest() (*http.Response, interface{}, error) {
 		response = ga.ResponseStruct
 	}
 
-	req, err := http.NewRequest(ga.Method, url, reqBody)
+	// parse body
+	// reqBody := strings.NewReader(ga.Body)
+	reqBody, err := json.Marshal(ga.Body)
 	if err != nil {
-		return fail, response, err
+		return fail, body, response, err
+	}
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest(strings.ToUpper(ga.Method), url, bytes.NewBuffer(reqBody))
+	if err != nil {
+		return fail, body, response, err
 	}
 
 	// add headers
@@ -59,13 +70,13 @@ func (ga *GoAxios) RunRest() (*http.Response, interface{}, error) {
 	}
 
 	// add bearer token
-	if ga.Token != "" {
-		req.Header.Add("Authorization", "Bearer "+ga.Token)
+	if ga.BearerToken != "" {
+		req.Header.Add("Authorization", "Bearer "+ga.BearerToken)
 	}
 
 	res, err := client.Do(req)
 	if err != nil {
-		return res, response, err
+		return res, body, response, err
 	}
 
 	defer res.Body.Close()
@@ -73,48 +84,46 @@ func (ga *GoAxios) RunRest() (*http.Response, interface{}, error) {
 	data, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		fmt.Println(err)
-		return res, response, err
+		return res, body, response, err
 	}
 
 	// unmarshall
 	contentType := res.Header.Get("Content-Type")
-	fmt.Println("CONTENT TYPE: ", contentType)
-	if strings.Contains(contentType, "application/json") {
-		err = json.Unmarshal(data, &response)
-		if err != nil {
-			fmt.Println(err)
-			return res, response, err
-		}
-	} else {
-		switch contentType {
-		case "text/html":
-			response = string(data)
-		case "text/plain":
-			if ga.ResponseStruct != nil {
-				err = json.Unmarshal(data, &response)
-				if err != nil {
-					fmt.Println(err)
-					return res, response, err
-				}
-			} else {
-				response = string(data)
-			}
-		case "application/xml":
-			if ga.ResponseStruct != nil {
-				err = xml.NewDecoder(res.Body).Decode(response)
-			} else {
-				response = string(data)
-			}
-		}
 
-	}
-
-	return res, response, err
+	return ga.PerformResponseMarshalling(contentType, response, data, body, err, res)
 }
 
 // a wrapper around Go's *http.Request object to make it faster to run GraphQL http requests.
-// It returns the *http.Response object and the response body as a map[string]interface{} and error (if any or nil)
-func (ga *GoAxios) RunGraphQL() (*http.Response, map[string]interface{}, error) {
+// It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)
+func (ga *GoAxios) RunGraphQL() (*http.Response, []byte, interface{}, error) {
 
-	return new(http.Response), *new(map[string]interface{}), nil
+	return new(http.Response), *new([]uint8), new(interface{}), nil
+}
+
+func (ga *GoAxios) PerformResponseMarshalling(contentType string, response interface{}, data, body []byte, err error, res *http.Response) (*http.Response, []byte, interface{}, error) {
+	switch true {
+	case strings.Contains(contentType, "text/plain"):
+		if ga.ResponseStruct != nil {
+			err = json.Unmarshal(data, &response)
+			if err != nil {
+				fmt.Println(err)
+				return res, body, response, err
+			}
+		} else {
+			response = string(data)
+		}
+	case strings.Contains(contentType, "application/xml"):
+		if ga.ResponseStruct != nil {
+			err = xml.NewDecoder(res.Body).Decode(response)
+		} else {
+			response = string(data)
+		}
+	default:
+		err = json.Unmarshal(data, &response)
+		if err != nil {
+			fmt.Println(err)
+			return res, body, response, err
+		}
+	}
+	return res, data, response, err
 }
