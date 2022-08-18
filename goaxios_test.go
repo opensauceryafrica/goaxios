@@ -2,7 +2,6 @@ package goaxios
 
 import (
 	"encoding/xml"
-	"fmt"
 	"testing"
 )
 
