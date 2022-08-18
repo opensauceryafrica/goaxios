@@ -19,7 +19,7 @@ func TestGetMethod(t *testing.T) {
 			}{},
 		}
 
-		_, p, err := a.RunRest()
+		_, _, err := a.RunRest()
 		if err != nil {
 			t.Errorf("err: %v", err)
 		}
@@ -35,7 +35,7 @@ func TestGetMethod(t *testing.T) {
 			}{},
 		}
 
-		_, p, err := a.RunRest()
+		_, _, err := a.RunRest()
 		if err != nil {
 			t.Errorf("err: %v", err)
 		}
@@ -67,7 +67,7 @@ func TestGetMethod(t *testing.T) {
 			}{},
 		}
 
-		_, p, err := a.RunRest()
+		_, _, err := a.RunRest()
 		if err != nil {
 			t.Errorf("err: %v", err)
 		}
