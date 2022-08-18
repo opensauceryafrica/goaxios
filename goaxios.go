@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type GoAxios struct {
@@ -20,6 +21,7 @@ type GoAxios struct {
 	ResponseStruct interface{}
 	Headers        map[string]string
 	IsMultiPart    bool // if true, then the body is a multipart form
+	Timeout        time.Duration
 }
 
 // a wrapper around Go's *http.Request ojbect to make it faster to run REST http requests.
@@ -53,7 +55,9 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 		return fail, body, response, err
 	}
 
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: ga.Timeout,
+	}
 
 	req, err := http.NewRequest(strings.ToUpper(ga.Method), url, bytes.NewBuffer(reqBody))
 	if err != nil {
