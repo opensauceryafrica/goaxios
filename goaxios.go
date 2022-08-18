@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type GoAxios struct {
@@ -17,10 +18,11 @@ type GoAxios struct {
 	Token          string
 	ResponseStruct interface{}
 	Headers        map[string]string
+	Timeout        time.Duration
 }
 
 // a wrapper around Go's *http.Request ojbect to make it faster to run REST http requests.
-// It returns the *http.Response object and the response body as a map[string]interface{} and error (if any or nil)
+// It returns the *http.Response object and the response body as a map[string]interface{} and error (if any or nil otherwise)
 func (ga *GoAxios) RunRest() (*http.Response, interface{}, error) {
 
 	url := ga.Url + "?"
@@ -33,7 +35,9 @@ func (ga *GoAxios) RunRest() (*http.Response, interface{}, error) {
 	// parse body
 	reqBody := strings.NewReader(ga.Body)
 
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: ga.Timeout,
+	}
 
 	// fake http response
 	var fail *http.Response
