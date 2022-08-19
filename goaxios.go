@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"encoding/xml"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -33,8 +32,17 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 	url := ga.Url + "?"
 
 	// parse query params
+	l := len(ga.Query)
+	i := 0
 	for k, v := range ga.Query {
-		url = url + k + "=" + v.(string) + "&"
+		if i == 0 && l > 1 {
+			url = url + k + "=" + v.(string) + "&"
+		} else if i == l-1 {
+			url = url + k + "=" + v.(string)
+		} else {
+			url = url + k + "=" + v.(string) + "&"
+		}
+		i++
 	}
 
 	// fake http response
@@ -87,7 +95,6 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 
 	data, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		fmt.Println(err)
 		return res, body, response, err
 	}
 
@@ -110,7 +117,6 @@ func (ga *GoAxios) PerformResponseMarshalling(contentType string, response inter
 		if ga.ResponseStruct != nil {
 			err = json.Unmarshal(data, &response)
 			if err != nil {
-				fmt.Println(err)
 				return res, body, response, err
 			}
 		} else {
@@ -119,14 +125,21 @@ func (ga *GoAxios) PerformResponseMarshalling(contentType string, response inter
 	case strings.Contains(contentType, "application/xml"):
 		if ga.ResponseStruct != nil {
 			err = xml.NewDecoder(res.Body).Decode(response)
+			if err != nil {
+				return res, body, response, err
+			}
 		} else {
 			response = string(data)
 		}
 	default:
 		err = json.Unmarshal(data, &response)
 		if err != nil {
-			fmt.Println(err)
-			return res, body, response, err
+			if ga.ResponseStruct != nil {
+				return res, body, response, err
+			} else {
+				err = nil
+				response = string(data)
+			}
 		}
 	}
 	return res, data, response, err

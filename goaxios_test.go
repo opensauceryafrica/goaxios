@@ -129,4 +129,22 @@ func TestPostMethod(t *testing.T) {
 		_ = json.Unmarshal(b, &n)
 		fmt.Printf("%+v\n", n)
 	})
+
+	t.Run("ContentType - application/xml", func(t *testing.T) {
+		// build body
+		// http://34.67.216.167/api/v0/dag/stat?arg=bafybeihhmzinrglpc6isvfcsqg2edduechay46fusfh7yu47yfv77zy7mu&
+		a := GoAxios{
+			Url:    "http://34.67.216.167/api/v0/dag/stat",
+			Method: "POST",
+			Query: map[string]interface{}{
+				"arg": "bafybeihhmzinrglpc6isvfcsqg2edduechay46fusfh7yu47yfv77zy7mu",
+			},
+		}
+		_, b, d, err := a.RunRest()
+		fmt.Println(string(b))
+		fmt.Printf("%+v\n", d)
+		if err != nil {
+			t.Errorf("err: %v", err)
+		}
+	})
 }
