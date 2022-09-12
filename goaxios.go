@@ -7,21 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"time"
 )
-
-type GoAxios struct {
-	Url            string
-	Method         string
-	Body           interface{}
-	Form           interface{}
-	Query          map[string]interface{}
-	BearerToken    string
-	ResponseStruct interface{}
-	Headers        map[string]string
-	IsMultiPart    bool // if true, then the body is a multipart form
-	Timeout        time.Duration
-}
 
 // a wrapper around Go's *http.Request ojbect to make it faster to run REST http requests.
 // It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)

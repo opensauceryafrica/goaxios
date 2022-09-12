@@ -1,15 +1,22 @@
 package goaxios
 
-import "net/http"
+import (
+	"net/http"
+	"time"
+)
 
-// type GoAxios struct {
-// 	Url    string
-// 	Method string
-// 	Body   string
-// 	Query  map[string]interface{}
-// 	Token  string
-// }
-
+type GoAxios struct {
+	Url            string
+	Method         string
+	Body           interface{}
+	Form           interface{}
+	Query          map[string]interface{}
+	BearerToken    string
+	ResponseStruct interface{}
+	Headers        map[string]string
+	IsMultiPart    bool // if true, then the body is a multipart form
+	Timeout        time.Duration
+}
 type Axios interface {
 	ValidateBeforeRequest() error
 
