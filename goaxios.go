@@ -3,7 +3,6 @@ package goaxios
 import (
 	"bytes"
 	"encoding/json"
-	"encoding/xml"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -99,39 +98,4 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 func (ga *GoAxios) RunGraphQL() (*http.Response, []byte, interface{}, error) {
 
 	return new(http.Response), *new([]uint8), new(interface{}), nil
-}
-
-// marshalls the response body based on the content type and user-defined struct, if any.
-func (ga *GoAxios) PerformResponseMarshalling(contentType string, response interface{}, data, body []byte, err error, res *http.Response) (*http.Response, []byte, interface{}, error) {
-	switch true {
-	case strings.Contains(contentType, "text/plain"):
-		if ga.ResponseStruct != nil {
-			err = json.Unmarshal(data, &response)
-			if err != nil {
-				return res, body, response, err
-			}
-		} else {
-			response = string(data)
-		}
-	case strings.Contains(contentType, "application/xml"):
-		if ga.ResponseStruct != nil {
-			err = xml.NewDecoder(res.Body).Decode(response)
-			if err != nil {
-				return res, body, response, err
-			}
-		} else {
-			response = string(data)
-		}
-	default:
-		err = json.Unmarshal(data, &response)
-		if err != nil {
-			if ga.ResponseStruct != nil {
-				return res, body, response, err
-			} else {
-				err = nil
-				response = string(data)
-			}
-		}
-	}
-	return res, data, response, err
 }
