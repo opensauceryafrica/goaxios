@@ -16,8 +16,10 @@ type GoAxios struct {
 	Headers        map[string]string
 	IsMultiPart    bool // if true, then the body is a multipart form
 	Timeout        time.Duration
+	Methods
 }
-type Axios interface {
+
+type Methods interface {
 	ValidateBeforeRequest() error
 
 	RunRest() (*http.Response, []byte, interface{}, error)

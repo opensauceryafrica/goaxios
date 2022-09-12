@@ -12,15 +12,14 @@ import (
 // It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)
 func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 
-	// TODO: validate before request
+	// TODO: improve validate before request
 	err := ga.ValidateBeforeRequest()
 	if err != nil {
 		return nil, nil, nil, err
 	}
 
-	url := ga.Url + "?"
-
 	// parse query params
+	url := ga.Url + "?"
 	l := len(ga.Query)
 	i := 0
 	for k, v := range ga.Query {
