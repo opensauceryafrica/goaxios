@@ -28,6 +28,10 @@ type GoAxios struct {
 func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 
 	// TODO: validate before request
+	err := ga.ValidateBeforeRequest()
+	if err != nil {
+		return nil, nil, nil, err
+	}
 
 	url := ga.Url + "?"
 
@@ -111,6 +115,7 @@ func (ga *GoAxios) RunGraphQL() (*http.Response, []byte, interface{}, error) {
 	return new(http.Response), *new([]uint8), new(interface{}), nil
 }
 
+// marshalls the response body based on the content type and user-defined struct, if any.
 func (ga *GoAxios) PerformResponseMarshalling(contentType string, response interface{}, data, body []byte, err error, res *http.Response) (*http.Response, []byte, interface{}, error) {
 	switch true {
 	case strings.Contains(contentType, "text/plain"):
