@@ -1,6 +1,7 @@
 # GoAxios
 
-A lightweight package that makes it easier to send Rest and GraphQL requests in Golang
+A lightweight package that makes it easier to send Rest and GraphQL requests in Golang.
+For every request you make, Goaxios returns the http response object, the raw response body in bytes, the parse response body in a struct or interface, and an error object.
 
 ## Features
 
@@ -40,7 +41,7 @@ r, b, d, err := a.RunRest()
 if err != nil {
     fmt.Printf("err: %v", err)
 }
-fmt.Printf("Response: ", r)
+fmt.Printf("Response Object: ", r)
 fmt.Printf("Raw Body in Bytes: ", b)
 fmt.Printf("Parsed Body: ", d)
 ```
