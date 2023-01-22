@@ -3,35 +3,23 @@ package goaxios
 import (
 	"bytes"
 	"encoding/json"
-	"encoding/xml"
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"time"
 )
-
-type GoAxios struct {
-	Url            string
-	Method         string
-	Body           interface{}
-	Form           interface{}
-	Query          map[string]interface{}
-	BearerToken    string
-	ResponseStruct interface{}
-	Headers        map[string]string
-	IsMultiPart    bool // if true, then the body is a multipart form
-	Timeout        time.Duration
-}
 
 // a wrapper around Go's *http.Request ojbect to make it faster to run REST http requests.
 // It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)
 func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 
-	// TODO: validate before request
-
-	url := ga.Url + "?"
+	// TODO: improve validate before request
+	err := ga.ValidateBeforeRequest()
+	if err != nil {
+		return nil, nil, nil, err
+	}
 
 	// parse query params
+	url := ga.Url + "?"
 	l := len(ga.Query)
 	i := 0
 	for k, v := range ga.Query {
@@ -109,38 +97,4 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 func (ga *GoAxios) RunGraphQL() (*http.Response, []byte, interface{}, error) {
 
 	return new(http.Response), *new([]uint8), new(interface{}), nil
-}
-
-func (ga *GoAxios) PerformResponseMarshalling(contentType string, response interface{}, data, body []byte, err error, res *http.Response) (*http.Response, []byte, interface{}, error) {
-	switch true {
-	case strings.Contains(contentType, "text/plain"):
-		if ga.ResponseStruct != nil {
-			err = json.Unmarshal(data, &response)
-			if err != nil {
-				return res, body, response, err
-			}
-		} else {
-			response = string(data)
-		}
-	case strings.Contains(contentType, "application/xml"):
-		if ga.ResponseStruct != nil {
-			err = xml.NewDecoder(res.Body).Decode(response)
-			if err != nil {
-				return res, body, response, err
-			}
-		} else {
-			response = string(data)
-		}
-	default:
-		err = json.Unmarshal(data, &response)
-		if err != nil {
-			if ga.ResponseStruct != nil {
-				return res, body, response, err
-			} else {
-				err = nil
-				response = string(data)
-			}
-		}
-	}
-	return res, data, response, err
 }
