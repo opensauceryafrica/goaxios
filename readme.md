@@ -1,7 +1,7 @@
-# GoAxios
+# GoAxios - inspired by the popular JavaScript Axios
 
 A lightweight package that makes it easier to send Rest and GraphQL requests in Golang.
-For every request you make, Goaxios returns the http response object, the raw response body in bytes, the parse response body in a struct or interface, and an error object.
+For every request you make, Goaxios returns the http response object, the raw response body in bytes, the parsed response body in a struct or interface, and an error object.
 
 ## Features
 
@@ -113,7 +113,7 @@ type House struct {
 a := goaxios.GoAxios{
     Url:    "https://anapioficeandfire.com/api/houses/1",
     Method: "GET",
-    ResponseStruct: House{},
+    ResponseStruct: &House{},
 }
 _, _, _, err := a.RunRest()
 if err != nil {
