@@ -1,7 +1,7 @@
-# GoAxios
+# GoAxios - inspired by the popular JavaScript Axios
 
 A lightweight package that makes it easier to send Rest and GraphQL requests in Golang.
-For every request you make, Goaxios returns the http response object, the raw response body in bytes, the parse response body in a struct or interface, and an error object.
+For every request you make, Goaxios returns the http response object, the raw response body in bytes, the parsed response body in a struct or interface, and an error object.
 
 ## Features
 
@@ -33,7 +33,7 @@ import (
     "fmt"
     "github.com/opensaucerer/goaxios"
 )
-a := GoAxios{
+a := goaxios.GoAxios{
     Url:    "https://anapioficeandfire.com/api/houses/1",
     Method: "GET",
 }
@@ -56,7 +56,7 @@ import (
     "github.com/opensaucerer/goaxios"
 )
 
-a := GoAxios{
+a := goaxios.GoAxios{
     Url:    "https://anapioficeandfire.com/api/houses",
     Method: "POST",
     Query: map[string]string{
@@ -80,7 +80,7 @@ import (
     "github.com/opensaucerer/goaxios"
 )
 
-a := GoAxios{
+a := goaxios.GoAxios{
     Url:    "https://anapioficeandfire.com/api/houses",
     Method: "POST",
     Body: map[string]string{
@@ -110,15 +110,52 @@ type House struct {
     Words   string `json:"words"`
     Seats   []string `json:"seats"`
 }
-a := GoAxios{
+a := goaxios.GoAxios{
     Url:    "https://anapioficeandfire.com/api/houses/1",
     Method: "GET",
-    ResponseStruct: House{},
+    ResponseStruct: &House{},
 }
 _, _, _, err := a.RunRest()
 if err != nil {
     fmt.Printf("err: %v", err)
 }
+```
+
+Request With bearer token
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/samperfect/goaxios"
+)
+
+type ResponseStruct struct {
+  Login            string `json:"login"`
+  Id               int    `json:"id"`
+  NodeID           string `json:"node_id"`
+  URL              string `json:"url"`
+  ReposURL         string `json:"repos_url"`
+  EventsURL        string `json:"events_url"`
+  HooksURL         string `json:"hooks_url"`
+  IssuesURL        string `json:"issues_url"`
+  MembersURL       string `json:"members_url"`
+  PublicMembersURL string `json:"public_members_url"`
+  AvatarURL        string `json:"avatar_url"`
+  Description      string `json:"description"`
+}
+token := ""
+a := goaxios.GoAxios{
+  Url:            "https://api.github.com/user/orgs",
+  Method:         "GET",
+  ResponseStruct: []ResponseStruct{},
+  BearerToken:    token,
+}
+_, _, response, err := a.RunRest()
+if err != nil {
+  fmt.Printf("err: %v", err)
+}
+fmt.Println(response)
 ```
 
 ## Usage for GraphQL HTTP requests
