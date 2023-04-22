@@ -1,3 +1,3 @@
-module github.com/samperfect/goaxios
+module github.com/opensaucerer/goaxios
 
 go 1.18

@@ -19,7 +19,7 @@ For every request you make, Goaxios returns the http response object, the raw re
 ## Installation
 
 ```bash
-go get github.com/samperfect/goaxios
+go get github.com/opensaucerer/goaxios
 ```
 
 ## Usage for REST HTTP requests
@@ -31,7 +31,7 @@ package main
 
 import (
     "fmt"
-    "github.com/samperfect/goaxios"
+    "github.com/opensaucerer/goaxios"
 )
 a := GoAxios{
     Url:    "https://anapioficeandfire.com/api/houses/1",
@@ -53,7 +53,7 @@ package main
 
 import (
     "fmt"
-    "github.com/samperfect/goaxios"
+    "github.com/opensaucerer/goaxios"
 )
 
 a := GoAxios{
@@ -77,7 +77,7 @@ package main
 
 import (
     "fmt"
-    "github.com/samperfect/goaxios"
+    "github.com/opensaucerer/goaxios"
 )
 
 a := GoAxios{
@@ -101,7 +101,7 @@ package main
 
 import (
     "fmt"
-    "github.com/samperfect/goaxios"
+    "github.com/opensaucerer/goaxios"
 )
 
 type House struct {
@@ -125,4 +125,4 @@ if err != nil {
 
 ## Contributing
 
-Contributions are welcome. Please open a [pull request](https://github.com/samperfect/goaxios/pulls) an [issue](https://github.com/samperfect/goaxios/issues) to discuss the change you wish to make.
+Contributions are welcome. Please open a [pull request](https://github.com/opensaucerer/goaxios/pulls) an [issue](https://github.com/opensaucerer/goaxios/issues) to discuss the change you wish to make.
