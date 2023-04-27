@@ -1,4 +1,4 @@
-# GoAxios - inspired by the popular JavaScript Axios
+# goaxios - inspired by the popular JavaScript axios
 
 A lightweight package that makes it easier to send Rest and GraphQL requests in Golang.
 For every request you make, Goaxios returns the http response object, the raw response body in bytes, the parsed response body in a struct or interface, and an error object.
@@ -24,7 +24,7 @@ go get github.com/opensaucerer/goaxios
 
 ## Usage for REST HTTP requests
 
-Run a simple GET request
+### Run a simple GET request
 
 ```go
 package main
@@ -46,7 +46,7 @@ fmt.Printf("Raw Body in Bytes: ", b)
 fmt.Printf("Parsed Body: ", d)
 ```
 
-Post request with query parameters
+### POST request with query parameters
 
 ```go
 package main
@@ -70,7 +70,7 @@ if err != nil {
 }
 ```
 
-Post request with body
+### POST request with body
 
 ```go
 package main
@@ -94,7 +94,7 @@ if err != nil {
 }
 ```
 
-Get request with custom response struct
+### GET request with custom response struct
 
 ```go
 package main
@@ -121,13 +121,14 @@ if err != nil {
 }
 ```
 
-Request With bearer token
+### Request With bearer token
+
 ```go
 package main
 
 import (
     "fmt"
-    "github.com/samperfect/goaxios"
+    "github.com/opensaucerer/goaxios"
 )
 
 type ResponseStruct struct {
@@ -158,8 +159,37 @@ if err != nil {
 fmt.Println(response)
 ```
 
+### URL encoded POST request
+
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/opensaucerer/goaxios"
+)
+
+r := goaxios.GoAxios{
+    Url:     "https://api.twitter.com/2/oauth2/token",
+    Method:  "POST",
+    Headers: map[string]string{
+        // needs to be empty to prevent goaxios from setting content-type to application/json
+    },
+    Query: map[string]interface{}{
+        "grant_type":    "refresh_token",
+        "refresh_token": refreshToken,
+        "client_id":     config.Env.TwitterClientID,
+    },
+}
+_, _, response, err := r.RunRest()
+if err != nil {
+  fmt.Printf("err: %v", err)
+}
+fmt.Println(response)
+```
+
 ## Usage for GraphQL HTTP requests
 
 ## Contributing
 
-Contributions are welcome. Please open a [pull request](https://github.com/opensaucerer/goaxios/pulls) an [issue](https://github.com/opensaucerer/goaxios/issues) to discuss the change you wish to make.
+Contributions are welcome. Please open a [pull request](https://github.com/opensaucerer/goaxios/pulls) or open an [issue](https://github.com/opensaucerer/goaxios/issues) to discuss the change you wish to make.
