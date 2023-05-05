@@ -5,6 +5,11 @@ import (
 	"time"
 )
 
+type Interceptor struct {
+	Request  func(req *GoAxios) *GoAxios
+	Response func(resp *http.Response) *http.Response
+}
+
 type GoAxios struct {
 	Url            string
 	Method         string
@@ -17,6 +22,7 @@ type GoAxios struct {
 	IsMultiPart    bool // if true, then the body is a multipart form
 	Timeout        time.Duration
 	Methods
+	Interceptor Interceptor
 }
 
 type Methods interface {

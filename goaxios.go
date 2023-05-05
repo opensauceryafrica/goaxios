@@ -11,6 +11,9 @@ import (
 // a wrapper around Go's *http.Request ojbect to make it faster to run REST http requests.
 // It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)
 func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
+	if ga.Interceptor.Request != nil {
+		ga = ga.Interceptor.Request(ga)
+	}
 
 	// TODO: improve validate before request
 	err := ga.ValidateBeforeRequest()
@@ -77,6 +80,10 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 	res, err := client.Do(req)
 	if err != nil {
 		return res, body, response, err
+	}
+
+	if ga.Interceptor.Response != nil {
+		res = ga.Interceptor.Response(res)
 	}
 
 	defer res.Body.Close()

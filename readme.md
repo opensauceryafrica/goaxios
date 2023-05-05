@@ -188,6 +188,49 @@ if err != nil {
 fmt.Println(response)
 ```
 
+## Interceptors
+
+### Request
+
+```go
+package main
+import (
+    "fmt"
+    "github.com/opensaucerer/goaxios"
+)
+
+a := GoAxios{
+  Url:    "https://api.twitter.com/2/oauth2/token",
+  Method: "POST",
+  Interceptor: Interceptor{
+    Request: func(req *GoAxios) *GoAxios {
+      // modify the request as needed
+      req.BearerToken = "token"
+      req.Headers = map[string]string{
+        "Content-Type": "application/json",
+      }
+      req.Body = map[string]string{
+        "key": "value",
+      }
+      return req
+    },
+    Response: func(resp *http.Response) *http.Response {
+      // do something with the response - logging/error handling or something
+      if resp.StatusCode != 200 {
+        panic("not OK")
+      }
+      return resp
+    },
+  },
+}
+
+_, _, response, err := a.RunRest()
+if err != nil {
+  t.Errorf("err: %v", err)
+}
+fmt.Println(response)
+```
+
 ## Usage for GraphQL HTTP requests
 
 ## Contributing
