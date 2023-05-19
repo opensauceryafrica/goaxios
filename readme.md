@@ -8,13 +8,14 @@ For every request you make, Goaxios returns the http response object, the raw re
 - [x] Create and run REST HTTP requests
 - [x] Basic configuration for REST HTTP requests
 - [x] Validate Goaxios Struct before running request
+- [x] Multipart form data requests
 - [ ] Create and run GraphQL HTTP requests
 - [ ] Basic configuration for GraphQL HTTP requests
 - [ ] Download file to a destination
 - [ ] Upload file from a source
 - [ ] Upload and download progress
 - [ ] JavaScript `Promise.all()` style to run multiple requests
-- [ ] Auto build path from path parameters like `/users/{id}`
+- [x] Auto build path from path parameters like `/users/:id`
 
 ## Installation
 
@@ -46,7 +47,7 @@ fmt.Printf("Raw Body in Bytes: ", b)
 fmt.Printf("Parsed Body: ", d)
 ```
 
-### POST request with query parameters
+### POST request with query and path parameters
 
 ```go
 package main
@@ -57,7 +58,10 @@ import (
 )
 
 a := goaxios.GoAxios{
-    Url:    "https://anapioficeandfire.com/api/houses",
+    Url:    "https://anapioficeandfire.com/api/:id",
+    Params: map[string]string{
+        "id": "houses",
+    },
     Method: "POST",
     Query: map[string]string{
         "name": "House Stark",
@@ -149,7 +153,7 @@ token := ""
 a := goaxios.GoAxios{
   Url:            "https://api.github.com/user/orgs",
   Method:         "GET",
-  ResponseStruct: []ResponseStruct{},
+  ResponseStruct: &[]ResponseStruct{},
   BearerToken:    token,
 }
 _, _, response, err := a.RunRest()
