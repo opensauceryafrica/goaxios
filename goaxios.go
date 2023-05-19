@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"io"
 	"io/ioutil"
-	"log"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -81,23 +80,26 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 			defer writer.Close()
 
 			for _, pf := range ga.Form.Files {
+				var file io.ReadCloser
+				var err error
 				// open file
-				file, err := os.Open(pf.Path)
-				if err != nil {
-					log.Println(err)
-					return
+				if pf.Path != "" && pf.Handle == nil {
+					file, err = os.Open(pf.Path)
+					if err != nil {
+						return
+					}
+				} else {
+					file = pf.Handle
 				}
 				// close file
 				defer file.Close()
 
 				part, err := writer.CreateFormFile(pf.Key, pf.Name)
 				if err != nil {
-					log.Println(err)
 					return
 				}
 				_, err = io.Copy(part, file)
 				if err != nil {
-					log.Println(err)
 					return
 				}
 			}
