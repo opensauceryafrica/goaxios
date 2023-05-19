@@ -216,11 +216,6 @@ a := GoAxios{
     },
     BearerToken: os.Getenv("TOKEN"),
 }
-
-_, _, _, err := a.RunRest()
-if err != nil {
-    t.Errorf("err: %v", err)
-}
 _, _, response, err := r.RunRest()
 if err != nil {
   fmt.Printf("err: %v", err)
