@@ -192,6 +192,42 @@ if err != nil {
 fmt.Println(response)
 ```
 
+### Multipart form data POST request
+
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/opensaucerer/goaxios"
+)
+
+a := GoAxios{
+    Url:    "https://api.pinata.cloud/pinning/pinFileToIPFS",
+    Method: "POST",
+    Form: &Form{
+        Files: []FormFile{
+            {
+                Name: "somefile.json",
+                Path: os.Getenv("LOCATION"),
+                Key:  "file",
+            },
+        },
+    },
+    BearerToken: os.Getenv("TOKEN"),
+}
+
+_, _, _, err := a.RunRest()
+if err != nil {
+    t.Errorf("err: %v", err)
+}
+_, _, response, err := r.RunRest()
+if err != nil {
+  fmt.Printf("err: %v", err)
+}
+fmt.Println(response)
+```
+
 ## Usage for GraphQL HTTP requests
 
 ## Contributing
