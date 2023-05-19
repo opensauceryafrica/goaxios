@@ -136,29 +136,29 @@ import (
 )
 
 type ResponseStruct struct {
-  Login            string `json:"login"`
-  Id               int    `json:"id"`
-  NodeID           string `json:"node_id"`
-  URL              string `json:"url"`
-  ReposURL         string `json:"repos_url"`
-  EventsURL        string `json:"events_url"`
-  HooksURL         string `json:"hooks_url"`
-  IssuesURL        string `json:"issues_url"`
-  MembersURL       string `json:"members_url"`
-  PublicMembersURL string `json:"public_members_url"`
-  AvatarURL        string `json:"avatar_url"`
-  Description      string `json:"description"`
+    Login            string `json:"login"`
+    Id               int    `json:"id"`
+    NodeID           string `json:"node_id"`
+    URL              string `json:"url"`
+    ReposURL         string `json:"repos_url"`
+    EventsURL        string `json:"events_url"`
+    HooksURL         string `json:"hooks_url"`
+    IssuesURL        string `json:"issues_url"`
+    MembersURL       string `json:"members_url"`
+    PublicMembersURL string `json:"public_members_url"`
+    AvatarURL        string `json:"avatar_url"`
+    Description      string `json:"description"`
 }
 token := ""
 a := goaxios.GoAxios{
-  Url:            "https://api.github.com/user/orgs",
-  Method:         "GET",
-  ResponseStruct: &[]ResponseStruct{},
-  BearerToken:    token,
+    Url:            "https://api.github.com/user/orgs",
+    Method:         "GET",
+    ResponseStruct: &[]ResponseStruct{},
+    BearerToken:    token,
 }
 _, _, response, err := a.RunRest()
 if err != nil {
-  fmt.Printf("err: %v", err)
+    fmt.Printf("err: %v", err)
 }
 fmt.Println(response)
 ```
@@ -210,6 +210,39 @@ a := GoAxios{
             {
                 Name: "somefile.json",
                 Path: os.Getenv("LOCATION"),
+                Key:  "file",
+            },
+        },
+    },
+    BearerToken: os.Getenv("TOKEN"),
+}
+_, _, response, err := r.RunRest()
+if err != nil {
+  fmt.Printf("err: %v", err)
+}
+fmt.Println(response)
+```
+
+### Multipart form data POST request with an in-memory file
+
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/opensaucerer/goaxios"
+)
+
+f, _ := os.Open(os.Getenv("LOCATION"))
+
+a := GoAxios{
+    Url:    "https://api.pinata.cloud/pinning/pinFileToIPFS",
+    Method: "POST",
+    Form: &Form{
+        Files: []FormFile{
+            {
+                Name: "somefile.json",
+                Handle: f,
                 Key:  "file",
             },
         },
