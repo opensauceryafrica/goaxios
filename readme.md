@@ -34,17 +34,19 @@ import (
     "fmt"
     "github.com/opensaucerer/goaxios"
 )
-a := goaxios.GoAxios{
-    Url:    "https://anapioficeandfire.com/api/houses/1",
-    Method: "GET",
+func main() {
+    a := goaxios.GoAxios{
+        Url:    "https://anapioficeandfire.com/api/houses/1",
+        Method: "GET",
+    }
+    r, b, d, err := a.RunRest()
+    if err != nil {
+        fmt.Printf("err: %v", err)
+    }
+    fmt.Printf("Response Object: ", r)
+    fmt.Printf("Raw Body in Bytes: ", b)
+    fmt.Printf("Parsed Body: ", d)
 }
-r, b, d, err := a.RunRest()
-if err != nil {
-    fmt.Printf("err: %v", err)
-}
-fmt.Printf("Response Object: ", r)
-fmt.Printf("Raw Body in Bytes: ", b)
-fmt.Printf("Parsed Body: ", d)
 ```
 
 ### POST request with query and path parameters
@@ -57,20 +59,22 @@ import (
     "github.com/opensaucerer/goaxios"
 )
 
-a := goaxios.GoAxios{
-    Url:    "https://anapioficeandfire.com/api/:id",
-    Params: map[string]string{
-        "id": "houses",
-    },
-    Method: "POST",
-    Query: map[string]string{
-        "name": "House Stark",
-        "region": "The North",
-    },
-}
-_, _, _, err := a.RunRest()
-if err != nil {
-    fmt.Printf("err: %v", err)
+func main() {
+    a := goaxios.GoAxios{
+        Url:    "https://anapioficeandfire.com/api/:id",
+        Params: map[string]string{
+            "id": "houses",
+        },
+        Method: "POST",
+        Query: map[string]string{
+            "name": "House Stark",
+            "region": "The North",
+        },
+    }
+    _, _, _, err := a.RunRest()
+    if err != nil {
+        fmt.Printf("err: %v", err)
+    }
 }
 ```
 
@@ -84,17 +88,19 @@ import (
     "github.com/opensaucerer/goaxios"
 )
 
-a := goaxios.GoAxios{
-    Url:    "https://anapioficeandfire.com/api/houses",
-    Method: "POST",
-    Body: map[string]string{
-        "name": "House Stark",
-        "region": "The North",
-    },
-}
-_, _, _, err := a.RunRest()
-if err != nil {
-    fmt.Printf("err: %v", err)
+func main() {
+    a := goaxios.GoAxios{
+        Url:    "https://anapioficeandfire.com/api/houses",
+        Method: "POST",
+        Body: map[string]string{
+            "name": "House Stark",
+            "region": "The North",
+        },
+    }
+    _, _, _, err := a.RunRest()
+    if err != nil {
+        fmt.Printf("err: %v", err)
+    }
 }
 ```
 
@@ -114,14 +120,17 @@ type House struct {
     Words   string `json:"words"`
     Seats   []string `json:"seats"`
 }
-a := goaxios.GoAxios{
-    Url:    "https://anapioficeandfire.com/api/houses/1",
-    Method: "GET",
-    ResponseStruct: &House{},
-}
-_, _, _, err := a.RunRest()
-if err != nil {
-    fmt.Printf("err: %v", err)
+
+func main() {
+    a := goaxios.GoAxios{
+        Url:    "https://anapioficeandfire.com/api/houses/1",
+        Method: "GET",
+        ResponseStruct: &House{},
+    }
+    _, _, _, err := a.RunRest()
+    if err != nil {
+        fmt.Printf("err: %v", err)
+    }
 }
 ```
 
@@ -149,18 +158,21 @@ type ResponseStruct struct {
     AvatarURL        string `json:"avatar_url"`
     Description      string `json:"description"`
 }
-token := ""
-a := goaxios.GoAxios{
-    Url:            "https://api.github.com/user/orgs",
-    Method:         "GET",
-    ResponseStruct: &[]ResponseStruct{},
-    BearerToken:    token,
+
+func main() {
+    token := ""
+    a := goaxios.GoAxios{
+        Url:            "https://api.github.com/user/orgs",
+        Method:         "GET",
+        ResponseStruct: &[]ResponseStruct{},
+        BearerToken:    token,
+    }
+    _, _, response, err := a.RunRest()
+    if err != nil {
+        fmt.Printf("err: %v", err)
+    }
+    fmt.Println(response)
 }
-_, _, response, err := a.RunRest()
-if err != nil {
-    fmt.Printf("err: %v", err)
-}
-fmt.Println(response)
 ```
 
 ### URL encoded POST request
@@ -173,23 +185,25 @@ import (
     "github.com/opensaucerer/goaxios"
 )
 
-r := goaxios.GoAxios{
-    Url:     "https://api.twitter.com/2/oauth2/token",
-    Method:  "POST",
-    Headers: map[string]string{
-        // needs to be empty to prevent goaxios from setting content-type to application/json
-    },
-    Query: map[string]interface{}{
-        "grant_type":    "refresh_token",
-        "refresh_token": refreshToken,
-        "client_id":     config.Env.TwitterClientID,
-    },
+func main() {
+    r := goaxios.GoAxios{
+        Url:     "https://api.twitter.com/2/oauth2/token",
+        Method:  "POST",
+        Headers: map[string]string{
+            // needs to be empty to prevent goaxios from setting content-type to application/json
+        },
+        Query: map[string]interface{}{
+            "grant_type":    "refresh_token",
+            "refresh_token": refreshToken,
+            "client_id":     config.Env.TwitterClientID,
+        },
+    }
+    _, _, response, err := r.RunRest()
+    if err != nil {
+    fmt.Printf("err: %v", err)
+    }
+    fmt.Println(response)
 }
-_, _, response, err := r.RunRest()
-if err != nil {
-  fmt.Printf("err: %v", err)
-}
-fmt.Println(response)
 ```
 
 ### Multipart form data POST request
@@ -202,25 +216,27 @@ import (
     "github.com/opensaucerer/goaxios"
 )
 
-a := GoAxios{
-    Url:    "https://api.pinata.cloud/pinning/pinFileToIPFS",
-    Method: "POST",
-    Form: &Form{
-        Files: []FormFile{
-            {
-                Name: "somefile.json",
-                Path: os.Getenv("LOCATION"),
-                Key:  "file",
+func main() {
+    r := goaxios.GoAxios{
+        Url:    "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        Method: "POST",
+        Form: &Form{
+            Files: []FormFile{
+                {
+                    Name: "somefile.json",
+                    Path: os.Getenv("LOCATION"),
+                    Key:  "file",
+                },
             },
         },
-    },
-    BearerToken: os.Getenv("TOKEN"),
+        BearerToken: os.Getenv("TOKEN"),
+    }
+    _, _, response, err := r.RunRest()
+    if err != nil {
+    fmt.Printf("err: %v", err)
+    }
+    fmt.Println(response)
 }
-_, _, response, err := r.RunRest()
-if err != nil {
-  fmt.Printf("err: %v", err)
-}
-fmt.Println(response)
 ```
 
 ### Multipart form data POST request with an in-memory file
@@ -233,27 +249,29 @@ import (
     "github.com/opensaucerer/goaxios"
 )
 
-f, _ := os.Open(os.Getenv("LOCATION"))
+func main() {
+    f, _ := os.Open(os.Getenv("LOCATION"))
 
-a := GoAxios{
-    Url:    "https://api.pinata.cloud/pinning/pinFileToIPFS",
-    Method: "POST",
-    Form: &Form{
-        Files: []FormFile{
-            {
-                Name: "somefile.json",
-                Handle: f,
-                Key:  "file",
+    r := GoAxios{
+        Url:    "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        Method: "POST",
+        Form: &Form{
+            Files: []FormFile{
+                {
+                    Name: "somefile.json",
+                    Handle: f,
+                    Key:  "file",
+                },
             },
         },
-    },
-    BearerToken: os.Getenv("TOKEN"),
+        BearerToken: os.Getenv("TOKEN"),
+    }
+    _, _, response, err := r.RunRest()
+    if err != nil {
+    fmt.Printf("err: %v", err)
+    }
+    fmt.Println(response)
 }
-_, _, response, err := r.RunRest()
-if err != nil {
-  fmt.Printf("err: %v", err)
-}
-fmt.Println(response)
 ```
 
 ## Usage for GraphQL HTTP requests
