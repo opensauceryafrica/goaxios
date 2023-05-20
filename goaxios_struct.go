@@ -30,10 +30,21 @@ type GoAxios struct {
 	`Content-Type: application/json`*/
 	// is added if no headers are passed. To prevent this, pass an empty map.
 	Headers map[string]string
-	// IsMultiPart is a flag to indicate if the request is a multipart form.
-	IsMultiPart bool // if true, then the body is a multipart form
 	// Timeout is the timeout to use for the request. This is optional.
 	Timeout time.Duration
+	// IsMultiPart is a flag to indicate if the request is a multipart form.
+	IsMultiPart bool
+	// IsDownload is a flag to indicate if the request is a download request.
+	// if true, a download destination must be provided.
+	IsDownload bool
+	// DownloadDestination is the path/writer to write the download to.
+	// This is required if IsDownload is true.
+	DownloadDestination Destination
+}
+
+type Destination struct {
+	Location string
+	Writer   io.Writer
 }
 
 // Form is the struct used to pass parameters to request methods.

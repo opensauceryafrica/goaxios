@@ -11,7 +11,8 @@ For every request you make, Goaxios returns the http response object, the raw re
 - [x] Multipart form data requests
 - [ ] Create and run GraphQL HTTP requests
 - [ ] Basic configuration for GraphQL HTTP requests
-- [ ] Download file to a destination
+- [ ] Download file to a location
+- [ ] Download file to a writer
 - [ ] Upload file from a source
 - [ ] Upload and download progress
 - [ ] JavaScript `Promise.all()` style to run multiple requests
@@ -271,6 +272,72 @@ func main() {
     fmt.Printf("err: %v", err)
     }
     fmt.Println(response)
+}
+```
+
+### Download file to a location
+
+```go
+package main
+
+import (
+	"log"
+
+	"github.com/opensaucerer/goaxios"
+)
+
+func main() {
+
+	a := goaxios.GoAxios{
+		Url:        "https://media.publit.io/file/wm_22a67238/castorr.webm",
+		Method:     "GET",
+		IsDownload: true,
+		DownloadDestination: goaxios.Destination{
+			Location: "test.webm",
+		},
+	}
+
+	_, _, _, err := a.RunRest()
+	if err != nil {
+		log.Fatalf("err: %v", err)
+	}
+}
+```
+
+### Download file to a writer
+
+```go
+package main
+
+import (
+	"log"
+	"os"
+
+	"github.com/opensaucerer/goaxios"
+)
+
+func main() {
+
+	// create a file
+	w, err := os.Create("castorr.webm")
+	if err != nil {
+		log.Fatalf("err: %v", err)
+	}
+	defer w.Close()
+
+	a := goaxios.GoAxios{
+		Url:        "https://media.publit.io/file/wm_22a67238/castorr.webm",
+		Method:     "GET",
+		IsDownload: true,
+		DownloadDestination: goaxios.Destination{
+			Writer: w,
+		},
+	}
+
+	_, _, _, err = a.RunRest()
+	if err != nil {
+		log.Fatalf("err: %v", err)
+	}
 }
 ```
 

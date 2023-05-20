@@ -1,2 +1,5 @@
 .vscode
 .env
+*.webm
+*.mkv
+*.mp4

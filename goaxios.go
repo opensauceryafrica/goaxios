@@ -3,6 +3,7 @@ package goaxios
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io"
 	"io/ioutil"
 	"mime/multipart"
@@ -131,15 +132,40 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 
 	defer res.Body.Close()
 
-	data, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		return res, body, response, err
+	// handle download
+	if ga.IsDownload {
+		if ga.DownloadDestination.Location != "" {
+			out, err := os.Create(ga.DownloadDestination.Location)
+			if err != nil {
+				return res, body, response, err
+			}
+			defer out.Close()
+			_, err = io.Copy(out, res.Body)
+			if err != nil {
+				return res, body, response, err
+			}
+		} else if ga.DownloadDestination.Writer != nil {
+			_, err = io.Copy(ga.DownloadDestination.Writer, res.Body)
+			if err != nil {
+				return res, body, response, err
+			}
+		} else {
+			return res, body, response, errors.New("download destination not provided")
+		}
+
+		return res, body, response, nil
+	} else {
+
+		data, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			return res, body, response, err
+		}
+
+		// unmarshall
+		contentType := res.Header.Get("Content-Type")
+
+		return ga.performResponseMarshalling(contentType, response, data, body, err, res)
 	}
-
-	// unmarshall
-	contentType := res.Header.Get("Content-Type")
-
-	return ga.performResponseMarshalling(contentType, response, data, body, err, res)
 }
 
 // a wrapper around Go's *http.Request object to make it faster to run GraphQL http requests.
