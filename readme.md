@@ -11,8 +11,8 @@ For every request you make, Goaxios returns the http response object, the raw re
 - [x] Multipart form data requests
 - [ ] Create and run GraphQL HTTP requests
 - [ ] Basic configuration for GraphQL HTTP requests
-- [ ] Download file to a location
-- [ ] Download file to a writer
+- [x] Download file to a location
+- [x] Download file to a writer
 - [ ] Upload file from a source
 - [ ] Upload and download progress
 - [ ] JavaScript `Promise.all()` style to run multiple requests
