@@ -25,12 +25,12 @@ func TestGetMethod(t *testing.T) {
 			ResponseStruct: &[]Todo{},
 		}
 
-		_, _, i, err := a.RunRest()
-		if err != nil {
-			t.Errorf("err: %v", err)
+		responseStruct := a.RunRest()
+		if responseStruct.err != nil {
+			t.Errorf("err: %v", responseStruct.err)
 		}
 
-		v := i.(*[]Todo)
+		v := responseStruct.rawRes.(*[]Todo)
 		if (*v)[0].Title == "" {
 			t.Errorf("expected: %v, got: %v", "delectus aut autem", (*v)[0].Title)
 		}
@@ -45,9 +45,9 @@ func TestGetMethod(t *testing.T) {
 				Author string `json:"author"`
 			}{},
 		}
-		_, _, _, err := a.RunRest()
-		if err != nil {
-			t.Errorf("err: %v", err)
+		responseStruct := a.RunRest()
+		if responseStruct.err != nil {
+			t.Errorf("err: %v", responseStruct.err)
 		}
 	})
 
@@ -77,9 +77,9 @@ func TestGetMethod(t *testing.T) {
 			}{},
 		}
 
-		_, _, _, err := a.RunRest()
-		if err != nil {
-			t.Errorf("err: %v", err)
+		responseStruct := a.RunRest()
+		if responseStruct.err != nil {
+			t.Errorf("err: %v", responseStruct.err)
 		}
 	})
 }
@@ -96,9 +96,9 @@ func TestPostMethod(t *testing.T) {
 				"job":  "leader",
 			},
 		}
-		_, _, _, err := a.RunRest()
-		if err != nil {
-			t.Errorf("err: %v", err)
+		responseStruct := a.RunRest()
+		if responseStruct.err != nil {
+			t.Errorf("err: %v", responseStruct.err)
 		}
 	})
 
@@ -118,9 +118,9 @@ func TestPostMethod(t *testing.T) {
 			BearerToken: os.Getenv("TOKEN"),
 		}
 
-		_, _, _, err := a.RunRest()
-		if err != nil {
-			t.Errorf("err: %v", err)
+		responseStruct := a.RunRest()
+		if responseStruct.err != nil {
+			t.Errorf("err: %v", responseStruct.err)
 		}
 	})
 }

@@ -3,6 +3,7 @@ package goaxios
 import (
 	"io"
 	"time"
+	"net/http"
 )
 
 type GoAxios struct {
@@ -73,4 +74,11 @@ type FormFile struct {
 	Key string
 	// Handle is an io.ReadCloser to use instead of a file path. This has an xor relationship with Path. GoAxios will close this handle after reading it. If you handle does not implement io.Closer, then you can use io.NopCloser to wrap it.
 	Handle io.ReadCloser
+}
+
+type Response struct {
+	response *http.Response
+	body []byte
+	rawRes interface{}
+	err error
 }
