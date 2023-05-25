@@ -13,7 +13,7 @@ For every request you make, Goaxios returns the http response object, the raw re
 - [ ] Basic configuration for GraphQL HTTP requests
 - [x] Download file to a location
 - [x] Download file to a writer
-- [ ] Upload file from a source
+- [x] Upload file from a source
 - [ ] Upload and download progress
 - [ ] JavaScript `Promise.all()` style to run multiple requests
 - [x] Auto build path from path parameters like `/users/:id`
