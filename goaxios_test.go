@@ -27,12 +27,12 @@ func TestGetMethod(t *testing.T) {
 			ResponseStruct: &[]Todo{},
 		}
 
-		responseStruct := a.RunRest()
-		if responseStruct.err != nil {
-			t.Errorf("err: %v", responseStruct.err)
+		res := a.RunRest()
+		if res.err != nil {
+			t.Errorf("err: %v", res.err)
 		}
 
-		v := responseStruct.rawRes.(*[]Todo)
+		v := res.rawRes.(*[]Todo)
 		if (*v)[0].Title == "" {
 			t.Errorf("expected: %v, got: %v", "delectus aut autem", (*v)[0].Title)
 		}
@@ -47,9 +47,9 @@ func TestGetMethod(t *testing.T) {
 				Author string `json:"author"`
 			}{},
 		}
-		responseStruct := a.RunRest()
-		if responseStruct.err != nil {
-			t.Errorf("err: %v", responseStruct.err)
+		res := a.RunRest()
+		if res.err != nil {
+			t.Errorf("err: %v", res.err)
 		}
 	})
 
@@ -79,9 +79,9 @@ func TestGetMethod(t *testing.T) {
 			}{},
 		}
 
-		responseStruct := a.RunRest()
-		if responseStruct.err != nil {
-			t.Errorf("err: %v", responseStruct.err)
+		res := a.RunRest()
+		if res.err != nil {
+			t.Errorf("err: %v", res.err)
 		}
 	})
 }
@@ -98,9 +98,9 @@ func TestPostMethod(t *testing.T) {
 				"job":  "leader",
 			},
 		}
-		responseStruct := a.RunRest()
-		if responseStruct.err != nil {
-			t.Errorf("err: %v", responseStruct.err)
+		res := a.RunRest()
+		if res.err != nil {
+			t.Errorf("err: %v", res.err)
 		}
 	})
 
@@ -120,9 +120,9 @@ func TestPostMethod(t *testing.T) {
 			BearerToken: os.Getenv("TOKEN"),
 		}
 
-		responseStruct := a.RunRest()
-		if responseStruct.err != nil {
-			t.Errorf("err: %v", responseStruct.err)
+		res := a.RunRest()
+		if res.err != nil {
+			t.Errorf("err: %v", res.err)
 		}
 	})
 }
@@ -148,11 +148,11 @@ func TestRequestInterceptor(t *testing.T) {
 			},
 		}
 
-		_, _, response, err := a.RunRest()
-		if err != nil {
-			t.Errorf("err: %v", err)
+		res := a.RunRest()
+		if res.err != nil {
+			t.Errorf("err: %v", res.err)
 		}
-		fmt.Println(response)
+		fmt.Println(res.rawRes)
 	})
 }
 
@@ -175,9 +175,9 @@ func TestResponseInterceptor(t *testing.T) {
 			},
 		}
 
-		_, _, _, err := a.RunRest()
-		if err != nil {
-			t.Errorf("err: %v", err)
+		res := a.RunRest()
+		if res.err != nil {
+			t.Errorf("err: %v", res.err)
 		}
 	})
 }
