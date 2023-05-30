@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func (ga *GoAxios) ValidateBeforeRequest() error {
+func (ga *GoAxios) validateBeforeRequest() error {
 
 	if ga.Url == "" {
 		return errors.New("url is required")
@@ -33,7 +33,7 @@ func (ga *GoAxios) ValidateBeforeRequest() error {
 }
 
 // marshalls the response body based on the content type and user-defined struct, if any.
-func (ga *GoAxios) PerformResponseMarshalling(contentType string, response interface{}, data, body []byte, err error, res *http.Response) (*http.Response, []byte, interface{}, error) {
+func (ga *GoAxios) performResponseMarshalling(contentType string, response interface{}, data, body []byte, err error, res *http.Response) (*http.Response, []byte, interface{}, error) {
 	switch true {
 	case strings.Contains(contentType, "text/plain"):
 		if ga.ResponseStruct != nil {
@@ -46,7 +46,7 @@ func (ga *GoAxios) PerformResponseMarshalling(contentType string, response inter
 		}
 	case strings.Contains(contentType, "application/xml"):
 		if ga.ResponseStruct != nil {
-			err = xml.NewDecoder(res.Body).Decode(response)
+			err = xml.Unmarshal(data, &response)
 			if err != nil {
 				return res, body, response, err
 			}
