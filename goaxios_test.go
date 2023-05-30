@@ -2,6 +2,8 @@ package goaxios
 
 import (
 	"encoding/xml"
+	"fmt"
+	"net/http"
 	"os"
 	"testing"
 )
@@ -116,6 +118,61 @@ func TestPostMethod(t *testing.T) {
 				},
 			},
 			BearerToken: os.Getenv("TOKEN"),
+		}
+
+		_, _, _, err := a.RunRest()
+		if err != nil {
+			t.Errorf("err: %v", err)
+		}
+	})
+}
+
+func TestRequestInterceptor(t *testing.T) {
+	t.Run("reqeuest interceptor", func(t *testing.T) {
+		a := GoAxios{
+			Url:    "http://localhost:3000/check-header",
+			Method: "POST",
+			Interceptor: Interceptor{
+				Request: func(req *GoAxios) *GoAxios {
+					// Modify the request as needed
+					req.BearerToken = "token"
+					req.Headers = map[string]string{
+						"Content-Type": "application/json",
+						"hello":        "world",
+					}
+					req.Body = map[string]string{
+						"key": "value",
+					}
+					return req
+				},
+			},
+		}
+
+		_, _, response, err := a.RunRest()
+		if err != nil {
+			t.Errorf("err: %v", err)
+		}
+		fmt.Println(response)
+	})
+}
+
+func TestResponseInterceptor(t *testing.T) {
+	t.Run("response interceptor", func(t *testing.T) {
+		a := GoAxios{
+			Url:         "http://localhost:3000",
+			Method:      "PATCH",
+			BearerToken: "token",
+			Body: map[string]string{
+				"key": "value",
+			},
+			Interceptor: Interceptor{
+				Response: func(resp *http.Response) *http.Response {
+					if resp.StatusCode != 200 {
+						panic("not OK")
+					}
+					return resp
+				},
+			},
 		}
 
 		_, _, _, err := a.RunRest()
