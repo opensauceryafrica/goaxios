@@ -40,10 +40,10 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 			err = json.Unmarshal(data, &response)
 			if err != nil {
 				return Response {
-					response: res,
-					body: body,
-					rawRes: response,
-					err: err,
+					Response: res,
+					Body: body,
+					RawRes: response,
+					Err: err,
 				}
 			}
 		} else {
@@ -54,10 +54,10 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 			err = xml.Unmarshal(data, &response)
 			if err != nil {
 				return Response {
-					response: res,
-					body: body,
-					rawRes: response,
-					err: err,
+					Response: res,
+					Body: body,
+					RawRes: response,
+					Err: err,
 				}
 			}
 		} else {
@@ -68,10 +68,10 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 		if err != nil {
 			if ga.ResponseStruct != nil {
 				return Response {
-					response: res,
-					body: body,
-					rawRes: response,
-					err: err,
+					Response: res,
+					Body: body,
+					RawRes: response,
+					Err: err,
 				}
 			} else {
 				err = nil
@@ -80,9 +80,9 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 		}
 	}
 	return Response {
-		response: res,
-		body: data,
-		rawRes: response,
-		err: err,
+		Response: res,
+		Body: data,
+		RawRes: response,
+		Err: err,
 	}
 }

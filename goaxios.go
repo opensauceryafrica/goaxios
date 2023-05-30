@@ -24,10 +24,10 @@ func (ga *GoAxios) RunRest() (Response) {
 	err := ga.validateBeforeRequest()
 	if err != nil {
 		return Response {
-			response: nil,
-			body: nil,
-			rawRes: nil,
-			err: err,
+			Response: nil,
+			Body: nil,
+			RawRes: nil,
+			Err: err,
 		}
 	}
 
@@ -64,10 +64,10 @@ func (ga *GoAxios) RunRest() (Response) {
 	reqBody, err := json.Marshal(ga.Body)
 	if err != nil {
 		return Response{
-			response: fail,
-			body: body,
-			rawRes: response,
-			err: err,
+			Response: fail,
+			Body: body,
+			RawRes: response,
+			Err: err,
 		}
 	}
 
@@ -78,10 +78,10 @@ func (ga *GoAxios) RunRest() (Response) {
 	req, err := http.NewRequest(strings.ToUpper(ga.Method), ga.Url, nil)
 	if err != nil {
 		return Response{
-			response: fail,
-			body: body,
-			rawRes: response,
-			err: err,
+			Response: fail,
+			Body: body,
+			RawRes: response,
+			Err: err,
 		}
 	}
 
@@ -147,10 +147,10 @@ func (ga *GoAxios) RunRest() (Response) {
 	res, err := client.Do(req)
 	if err != nil {
 		return Response{
-			response: res,
-			body: body,
-			rawRes: response,
-			err: err,
+			Response: res,
+			Body: body,
+			RawRes: response,
+			Err: err,
 		}
 	}
 
@@ -166,56 +166,56 @@ func (ga *GoAxios) RunRest() (Response) {
 			out, err := os.Create(ga.DownloadDestination.Location)
 			if err != nil {
 				return Response {
-					response: res,
-					body: body,
-					rawRes: response,
-					err: err,
+					Response: res,
+					Body: body,
+					RawRes: response,
+					Err: err,
 				}
 			}
 			defer out.Close()
 			_, err = io.Copy(out, res.Body)
 			if err != nil {
 				return Response {
-					response: res,
-					body: body,
-					rawRes: response,
-					err: err,
+					Response: res,
+					Body: body,
+					RawRes: response,
+					Err: err,
 				}
 			}
 		} else if ga.DownloadDestination.Writer != nil {
 			_, err = io.Copy(ga.DownloadDestination.Writer, res.Body)
 			if err != nil {
 				return Response {
-					response: res,
-					body: body,
-					rawRes: response,
-					err: err,
+					Response: res,
+					Body: body,
+					RawRes: response,
+					Err: err,
 				}
 			}
 		} else {
 			return Response {
-				response: res,
-				body: body,
-				rawRes: response,
-				err: errors.New("download destination not provided"),
+				Response: res,
+				Body: body,
+				RawRes: response,
+				Err: errors.New("download destination not provided"),
 			}
 		}
 
 		return Response {
-			response: res,
-			body: body,
-			rawRes: response,
-			err: nil,
+			Response: res,
+			Body: body,
+			RawRes: response,
+			Err: nil,
 		}
 	} else {
 
 		data, err := ioutil.ReadAll(res.Body)
 		if err != nil {
 			return Response {
-				response: res,
-				body: body,
-				rawRes: response,
-				err: err,
+				Response: res,
+				Body: body,
+				RawRes: response,
+				Err: err,
 			}
 		}
 

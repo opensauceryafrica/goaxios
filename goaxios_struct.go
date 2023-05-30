@@ -95,8 +95,8 @@ type FormFile struct {
 }
 
 type Response struct {
-	response *http.Response
-	body []byte
-	rawRes interface{}
-	err error
+	Response *http.Response
+	Body []byte
+	RawRes interface{}
+	Err error
 }
