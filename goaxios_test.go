@@ -97,7 +97,7 @@ func TestPostMethod(t *testing.T) {
 func TestRequestInterceptor(t *testing.T) {
 	t.Run("reqeuest interceptor", func(t *testing.T) {
 		a := GoAxios{
-			Url:    "http://34.67.216.167/api/v0/dag/stat",
+			Url:    "http://localhost:3000/check-header",
 			Method: "POST",
 			Interceptor: Interceptor{
 				Request: func(req *GoAxios) *GoAxios {
@@ -105,6 +105,7 @@ func TestRequestInterceptor(t *testing.T) {
 					req.BearerToken = "token"
 					req.Headers = map[string]string{
 						"Content-Type": "application/json",
+						"hello":        "world",
 					}
 					req.Body = map[string]string{
 						"key": "value",
@@ -125,7 +126,7 @@ func TestRequestInterceptor(t *testing.T) {
 func TestResponseInterceptor(t *testing.T) {
 	t.Run("response interceptor", func(t *testing.T) {
 		a := GoAxios{
-			Url:         "http://34.67.216.167/api/v0/dag/stat",
+			Url:         "http://localhost:3000",
 			Method:      "PATCH",
 			BearerToken: "token",
 			Body: map[string]string{

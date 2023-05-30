@@ -12,7 +12,7 @@ import (
 // It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)
 func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 	if ga.Interceptor.Request != nil {
-		ga = ga.Interceptor.Request(ga)
+		ga.Interceptor.Request(ga)
 	}
 
 	// TODO: improve validate before request
@@ -83,7 +83,7 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 	}
 
 	if ga.Interceptor.Response != nil {
-		res = ga.Interceptor.Response(res)
+		ga.Interceptor.Response(res)
 	}
 
 	defer res.Body.Close()

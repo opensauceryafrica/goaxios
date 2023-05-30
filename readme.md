@@ -199,11 +199,11 @@ import (
     "github.com/opensaucerer/goaxios"
 )
 
-a := GoAxios{
+a := goaxios.GoAxios{
   Url:    "https://api.twitter.com/2/oauth2/token",
   Method: "POST",
-  Interceptor: Interceptor{
-    Request: func(req *GoAxios) *GoAxios {
+  Interceptor: goaxios.Interceptor{
+    Request: func(req *goaxios.GoAxios) *goaxios.GoAxios {
       // modify the request as needed
       req.BearerToken = "token"
       req.Headers = map[string]string{
