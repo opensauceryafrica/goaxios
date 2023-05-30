@@ -15,6 +15,10 @@ import (
 // a tiny wrapper around Go's *http.Request object to make it quicker to run REST http requests.
 // It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)
 func (ga *GoAxios) RunRest() (Response) {
+  
+	if ga.Interceptor.Request != nil {
+		ga.Interceptor.Request(ga)
+	}
 
 	// TODO: improve validate before request
 	err := ga.validateBeforeRequest()
@@ -148,6 +152,10 @@ func (ga *GoAxios) RunRest() (Response) {
 			rawRes: response,
 			err: err,
 		}
+	}
+
+	if ga.Interceptor.Response != nil {
+		ga.Interceptor.Response(res)
 	}
 
 	defer res.Body.Close()

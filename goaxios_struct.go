@@ -6,6 +6,11 @@ import (
 	"time"
 )
 
+type Interceptor struct {
+	Request  func(req *GoAxios) *GoAxios
+	Response func(resp *http.Response) *http.Response
+}
+
 type GoAxios struct {
 	// Url is the url to send the request to.
 	Url string
@@ -41,6 +46,7 @@ type GoAxios struct {
 	// DownloadDestination is the path/writer to write the download to.
 	// This is required if IsDownload is true.
 	DownloadDestination Destination
+	Interceptor Interceptor
 
 	 // OnDownload is an handler that's fired for any batch of byte written during a download event
 	OnDownload func(Event)
