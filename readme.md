@@ -8,6 +8,7 @@ For every request you make, Goaxios returns the http response object, the raw re
 - [x] Create and run REST HTTP requests
 - [x] Basic configuration for REST HTTP requests
 - [x] Validate Goaxios Struct before running request
+- [x] Interceptors for before Request and after Response
 - [ ] Create and run GraphQL HTTP requests
 - [ ] Basic configuration for GraphQL HTTP requests
 - [ ] Download file to a destination
