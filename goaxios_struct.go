@@ -2,8 +2,8 @@ package goaxios
 
 import (
 	"io"
-	"time"
 	"net/http"
+	"time"
 )
 
 type GoAxios struct {
@@ -41,11 +41,23 @@ type GoAxios struct {
 	// DownloadDestination is the path/writer to write the download to.
 	// This is required if IsDownload is true.
 	DownloadDestination Destination
+
+	 // OnDownload is an handler that's fired for any batch of byte written during a download event
+	OnDownload func(Event)
 }
 
 type Destination struct {
 	Location string
 	Writer   io.Writer
+}
+
+type Event struct {
+	Download DownloadEvent
+}
+
+type DownloadEvent struct {
+	TotalContentLength int64
+	CurrentContentLength int64
 }
 
 // Form is the struct used to pass parameters to request methods.
