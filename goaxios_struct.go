@@ -102,5 +102,5 @@ type Response struct {
 	// The unmarshalled response body
 	Body interface{}
 	// The error object (if any or nil)
-	Err error
+	Error error
 }

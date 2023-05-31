@@ -43,7 +43,7 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 					Response: res,
 					Bytes: body,
 					Body: response,
-					Err: err,
+					Error: err,
 				}
 			}
 		} else {
@@ -57,7 +57,7 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 					Response: res,
 					Bytes: body,
 					Body: response,
-					Err: err,
+					Error: err,
 				}
 			}
 		} else {
@@ -71,7 +71,7 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 					Response: res,
 					Bytes: body,
 					Body: response,
-					Err: err,
+					Error: err,
 				}
 			} else {
 				err = nil
@@ -83,6 +83,6 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 		Response: res,
 		Bytes: data,
 		Body: response,
-		Err: err,
+		Error: err,
 	}
 }

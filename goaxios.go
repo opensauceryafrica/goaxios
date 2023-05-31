@@ -27,7 +27,7 @@ func (ga *GoAxios) RunRest() (Response) {
 			Response: nil,
 			Bytes: nil,
 			Body: nil,
-			Err: err,
+			Error: err,
 		}
 	}
 
@@ -67,7 +67,7 @@ func (ga *GoAxios) RunRest() (Response) {
 			Response: fail,
 			Bytes: body,
 			Body: response,
-			Err: err,
+			Error: err,
 		}
 	}
 
@@ -81,7 +81,7 @@ func (ga *GoAxios) RunRest() (Response) {
 			Response: fail,
 			Bytes: body,
 			Body: response,
-			Err: err,
+			Error: err,
 		}
 	}
 
@@ -150,7 +150,7 @@ func (ga *GoAxios) RunRest() (Response) {
 			Response: res,
 			Bytes: body,
 			Body: response,
-			Err: err,
+			Error: err,
 		}
 	}
 
@@ -169,7 +169,7 @@ func (ga *GoAxios) RunRest() (Response) {
 					Response: res,
 					Bytes: body,
 					Body: response,
-					Err: err,
+					Error: err,
 				}
 			}
 			defer out.Close()
@@ -179,7 +179,7 @@ func (ga *GoAxios) RunRest() (Response) {
 					Response: res,
 					Bytes: body,
 					Body: response,
-					Err: err,
+					Error: err,
 				}
 			}
 		} else if ga.DownloadDestination.Writer != nil {
@@ -189,7 +189,7 @@ func (ga *GoAxios) RunRest() (Response) {
 					Response: res,
 					Bytes: body,
 					Body: response,
-					Err: err,
+					Error: err,
 				}
 			}
 		} else {
@@ -197,7 +197,7 @@ func (ga *GoAxios) RunRest() (Response) {
 				Response: res,
 				Bytes: body,
 				Body: response,
-				Err: errors.New("download destination not provided"),
+				Error: errors.New("download destination not provided"),
 			}
 		}
 
@@ -205,7 +205,7 @@ func (ga *GoAxios) RunRest() (Response) {
 			Response: res,
 			Bytes: body,
 			Body: response,
-			Err: nil,
+			Error: nil,
 		}
 	} else {
 
@@ -215,7 +215,7 @@ func (ga *GoAxios) RunRest() (Response) {
 				Response: res,
 				Bytes: body,
 				Body: response,
-				Err: err,
+				Error: err,
 			}
 		}
 

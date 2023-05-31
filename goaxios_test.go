@@ -28,8 +28,8 @@ func TestGetMethod(t *testing.T) {
 		}
 
 		res := a.RunRest()
-		if res.Err != nil {
-			t.Errorf("err: %v", res.Err)
+		if res.Error != nil {
+			t.Errorf("err: %v", res.Error)
 		}
 
 		v := res.Body.(*[]Todo)
@@ -48,8 +48,8 @@ func TestGetMethod(t *testing.T) {
 			}{},
 		}
 		res := a.RunRest()
-		if res.Err != nil {
-			t.Errorf("err: %v", res.Err)
+		if res.Error != nil {
+			t.Errorf("err: %v", res.Error)
 		}
 	})
 
@@ -80,8 +80,8 @@ func TestGetMethod(t *testing.T) {
 		}
 
 		res := a.RunRest()
-		if res.Err != nil {
-			t.Errorf("err: %v", res.Err)
+		if res.Error != nil {
+			t.Errorf("err: %v", res.Error)
 		}
 	})
 }
@@ -99,8 +99,8 @@ func TestPostMethod(t *testing.T) {
 			},
 		}
 		res := a.RunRest()
-		if res.Err != nil {
-			t.Errorf("err: %v", res.Err)
+		if res.Error != nil {
+			t.Errorf("err: %v", res.Error)
 		}
 	})
 
@@ -121,8 +121,8 @@ func TestPostMethod(t *testing.T) {
 		}
 
 		res := a.RunRest()
-		if res.Err != nil {
-			t.Errorf("err: %v", res.Err)
+		if res.Error != nil {
+			t.Errorf("err: %v", res.Error)
 		}
 	})
 }
@@ -149,8 +149,8 @@ func TestRequestInterceptor(t *testing.T) {
 		}
 
 		res := a.RunRest()
-		if res.Err != nil {
-			t.Errorf("err: %v", res.Err)
+		if res.Error != nil {
+			t.Errorf("err: %v", res.Error)
 		}
 		fmt.Println(res.Body)
 	})
@@ -176,8 +176,8 @@ func TestResponseInterceptor(t *testing.T) {
 		}
 
 		res := a.RunRest()
-		if res.Err != nil {
-			t.Errorf("err: %v", res.Err)
+		if res.Error != nil {
+			t.Errorf("err: %v", res.Error)
 		}
 	})
 }
