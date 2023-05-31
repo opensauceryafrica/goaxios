@@ -32,7 +32,7 @@ func TestGetMethod(t *testing.T) {
 			t.Errorf("err: %v", res.Err)
 		}
 
-		v := res.RawRes.(*[]Todo)
+		v := res.Body.(*[]Todo)
 		if (*v)[0].Title == "" {
 			t.Errorf("expected: %v, got: %v", "delectus aut autem", (*v)[0].Title)
 		}
@@ -152,7 +152,7 @@ func TestRequestInterceptor(t *testing.T) {
 		if res.Err != nil {
 			t.Errorf("err: %v", res.Err)
 		}
-		fmt.Println(res.RawRes)
+		fmt.Println(res.Body)
 	})
 }
 

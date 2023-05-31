@@ -95,8 +95,12 @@ type FormFile struct {
 }
 
 type Response struct {
+	// The unfiltered *http.Respons object
 	Response *http.Response
-	Body []byte
-	RawRes interface{}
+	// The response body as byte
+	Bytes []byte
+	// The unmarshalled response body
+	Body interface{}
+	// The error object (if any or nil)
 	Err error
 }

@@ -25,8 +25,8 @@ func (ga *GoAxios) RunRest() (Response) {
 	if err != nil {
 		return Response {
 			Response: nil,
+			Bytes: nil,
 			Body: nil,
-			RawRes: nil,
 			Err: err,
 		}
 	}
@@ -65,8 +65,8 @@ func (ga *GoAxios) RunRest() (Response) {
 	if err != nil {
 		return Response{
 			Response: fail,
-			Body: body,
-			RawRes: response,
+			Bytes: body,
+			Body: response,
 			Err: err,
 		}
 	}
@@ -79,8 +79,8 @@ func (ga *GoAxios) RunRest() (Response) {
 	if err != nil {
 		return Response{
 			Response: fail,
-			Body: body,
-			RawRes: response,
+			Bytes: body,
+			Body: response,
 			Err: err,
 		}
 	}
@@ -148,8 +148,8 @@ func (ga *GoAxios) RunRest() (Response) {
 	if err != nil {
 		return Response{
 			Response: res,
-			Body: body,
-			RawRes: response,
+			Bytes: body,
+			Body: response,
 			Err: err,
 		}
 	}
@@ -167,8 +167,8 @@ func (ga *GoAxios) RunRest() (Response) {
 			if err != nil {
 				return Response {
 					Response: res,
-					Body: body,
-					RawRes: response,
+					Bytes: body,
+					Body: response,
 					Err: err,
 				}
 			}
@@ -177,8 +177,8 @@ func (ga *GoAxios) RunRest() (Response) {
 			if err != nil {
 				return Response {
 					Response: res,
-					Body: body,
-					RawRes: response,
+					Bytes: body,
+					Body: response,
 					Err: err,
 				}
 			}
@@ -187,24 +187,24 @@ func (ga *GoAxios) RunRest() (Response) {
 			if err != nil {
 				return Response {
 					Response: res,
-					Body: body,
-					RawRes: response,
+					Bytes: body,
+					Body: response,
 					Err: err,
 				}
 			}
 		} else {
 			return Response {
 				Response: res,
-				Body: body,
-				RawRes: response,
+				Bytes: body,
+				Body: response,
 				Err: errors.New("download destination not provided"),
 			}
 		}
 
 		return Response {
 			Response: res,
-			Body: body,
-			RawRes: response,
+			Bytes: body,
+			Body: response,
 			Err: nil,
 		}
 	} else {
@@ -213,8 +213,8 @@ func (ga *GoAxios) RunRest() (Response) {
 		if err != nil {
 			return Response {
 				Response: res,
-				Body: body,
-				RawRes: response,
+				Bytes: body,
+				Body: response,
 				Err: err,
 			}
 		}

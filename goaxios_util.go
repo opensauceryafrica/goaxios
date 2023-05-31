@@ -41,8 +41,8 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 			if err != nil {
 				return Response {
 					Response: res,
-					Body: body,
-					RawRes: response,
+					Bytes: body,
+					Body: response,
 					Err: err,
 				}
 			}
@@ -55,8 +55,8 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 			if err != nil {
 				return Response {
 					Response: res,
-					Body: body,
-					RawRes: response,
+					Bytes: body,
+					Body: response,
 					Err: err,
 				}
 			}
@@ -69,8 +69,8 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 			if ga.ResponseStruct != nil {
 				return Response {
 					Response: res,
-					Body: body,
-					RawRes: response,
+					Bytes: body,
+					Body: response,
 					Err: err,
 				}
 			} else {
@@ -81,8 +81,8 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 	}
 	return Response {
 		Response: res,
-		Body: data,
-		RawRes: response,
+		Bytes: data,
+		Body: response,
 		Err: err,
 	}
 }
