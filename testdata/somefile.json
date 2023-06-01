@@ -1,0 +1,123 @@
+[
+    {
+      "id": 1,
+      "name": "Quill-Image-Uploader",
+      "description": "A quilljs plugin that uploads images inserted, drag/dropped or pasted into the quill editor to a server instead of being base64 encoded.",
+      "tools": ["TypeScript"],
+      "projectLink": "https://www.npmjs.com/package/quill-image-uploader-ts",
+      "githubLink": "https://github.com/Nelwhix/quill-image-uploader",
+      "tag": "Open Source"
+    },
+    {
+      "id": 2,
+      "name": "Devleads",
+      "description": "A blog app that shares useful tips to other developers. It has dark/light mode theme, a rich text editor made with QuillJS, google oauth2 login and regular email/password login",
+      "tools": ["Javascript", "Tailwind", "VueJS", "QuillJS", "googleOauth2"],
+      "projectLink": "https://nelson-blog-app.netlify.app/",
+      "githubLink": "https://github.com/Nelwhix/Vue-Blog-app",
+      "tag": "Frontend"
+    },
+    {
+      "id": 3,
+      "name": "VueQuill",
+      "description": "Rich Text Editor Component for Vue 3. I contributed to the docs for a package with over 400⭐'s on github",
+      "tools": ["TypeScript", "Stylus", "Javascript"],
+      "projectLink": "https://vueup.github.io/vue-quill/",
+      "githubLink": "https://github.com/vueup/vue-quill/commit/85998968b40801b38ab4c0b8fbdbf0f87d0f13f2",
+      "tag":  "Open Source"
+    },
+    {
+      "id": 4,
+      "name": "Blog App API",
+      "description": "This is a laravel API for my Vue Blog app. It has session based authentication for only my SPA, it has automated tests with PestPHP. It also has two types of users, Admin and guest. Admin has full admin abilities while guests are only allowed to view resources.",
+      "tools": ["PHP", "Laravel", "Docker", "MYSQL", "NGINX"],
+      "projectLink": "#",
+      "githubLink": "https://github.com/Nelwhix/blog-api",
+      "tag": "Backend"
+    },
+    {
+      "id": 5,
+      "name": "Portfolio API",
+      "description": "API to manage projects in my portfolio website with JWT auth and mongodb",
+      "tools": ["Docker", "MongoDB", "PHP", "NGINX", "JWT"],
+      "projectLink": "http://46.101.213.224/api/project",
+      "githubLink": "https://github.com/Nelwhix/portfolio-api",
+      "tag": "Backend"
+    },
+    {
+      "id": 6,
+      "name": "Tutu-client",
+      "description": "Client app to make payments using the tutu-api",
+      "tools": ["React", "Typescript", "TanstackRouter"],
+      "projectLink": "https://tutu-client.netlify.app",
+      "githubLink": "https://github.com/Nelwhix/wallet-app",
+      "tag": "Frontend"
+    },
+    {
+      "id": 7,
+      "name": "Library Management System",
+      "description": "An API for a Book Library ",
+      "tools": ["PHP", "Laravel", "PestPHP"],
+      "projectLink": "#",
+      "githubLink": "https://github.com/Nelwhix/Library-Mangement-System",
+      "tag": "Backend"
+    },
+  
+    {
+      "id": 8,
+      "name": "Fintech Dashboard",
+      "description": "Landing page for a Fintech's Dashboard. Open on Desktop!",
+      "tools": ["Vue", "TypeScript", "Tailwind"],
+      "projectLink": "https://monobank-dashboard.netlify.app/",
+      "githubLink": "https://github.com/Nelwhix/fintech-dashboard",
+      "tag": "Frontend"
+    },
+    
+    {
+      "id": 9,
+      "name": "Aang",
+      "description": "CLI to prepare my Nuxt App for staging",
+      "tools": ["Go"],
+      "projectLink": "#",
+      "githubLink": "https://github.com/Nelwhix/aang",
+      "tag": "CLI"
+    },
+    {
+      "id": 10,
+      "name": "Attendance-form",
+      "description": "A web app to record student attendance and export records as csv when needed",
+      "tools": ["Go", "SQLITE"],
+      "projectLink": "#",
+      "githubLink": "https://github.com/Nelwhix/Attendance-form",
+      "tag": "FullStack"
+    },
+    {
+      "id": 11,
+      "name": "pScan",
+      "description": "pScan is a CLI tool that allows you to execute a port scan on specified TCP ports",
+      "tools": ["Go", "Cobra"],
+      "projectLink": "#",
+      "githubLink": "https://github.com/Nelwhix/pScan",
+      "tag": "CLI"
+    },
+    {
+      "id": 12,
+      "name": "Nuber",
+      "description": "A ride sharing app",
+      "tools": ["Typescript", "React", "Nextjs", "Tailwind", "Google Maps Platform"],
+      "projectLink": "#",
+      "githubLink": "https://github.com/Nelwhix/nuber-frontend",
+      "tag": "Frontend"
+    },
+    {
+      "id": 13,
+      "name": "Nuber-API",
+      "description": "API for a ride sharing app with websockets capabilities",
+      "tools": ["PHP", "Laravel", "Pusher"],
+      "projectLink": "#",
+      "githubLink": "https://github.com/Nelwhix/nuber-api",
+      "tag": "Backend"
+    }
+  
+  ]
+  

@@ -14,7 +14,8 @@ import (
 
 // a tiny wrapper around Go's *http.Request object to make it quicker to run REST http requests.
 // It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)
-func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
+func (ga *GoAxios) RunRest() (Response) {
+  
 	if ga.Interceptor.Request != nil {
 		ga.Interceptor.Request(ga)
 	}
@@ -22,7 +23,12 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 	// TODO: improve validate before request
 	err := ga.validateBeforeRequest()
 	if err != nil {
-		return nil, nil, nil, err
+		return Response {
+			Response: nil,
+			Bytes: nil,
+			Body: nil,
+			Error: err,
+		}
 	}
 
 	// replace path params
@@ -57,7 +63,12 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 	// reqBody := strings.NewReader(ga.Body)
 	reqBody, err := json.Marshal(ga.Body)
 	if err != nil {
-		return fail, body, response, err
+		return Response{
+			Response: fail,
+			Bytes: body,
+			Body: response,
+			Error: err,
+		}
 	}
 
 	client := &http.Client{
@@ -66,7 +77,12 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 
 	req, err := http.NewRequest(strings.ToUpper(ga.Method), ga.Url, nil)
 	if err != nil {
-		return fail, body, response, err
+		return Response{
+			Response: fail,
+			Bytes: body,
+			Body: response,
+			Error: err,
+		}
 	}
 
 	// add headers
@@ -130,7 +146,12 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 
 	res, err := client.Do(req)
 	if err != nil {
-		return res, body, response, err
+		return Response{
+			Response: res,
+			Bytes: body,
+			Body: response,
+			Error: err,
+		}
 	}
 
 	if ga.Interceptor.Response != nil {
@@ -144,28 +165,58 @@ func (ga *GoAxios) RunRest() (*http.Response, []byte, interface{}, error) {
 		if ga.DownloadDestination.Location != "" {
 			out, err := os.Create(ga.DownloadDestination.Location)
 			if err != nil {
-				return res, body, response, err
+				return Response {
+					Response: res,
+					Bytes: body,
+					Body: response,
+					Error: err,
+				}
 			}
 			defer out.Close()
 			_, err = io.Copy(out, res.Body)
 			if err != nil {
-				return res, body, response, err
+				return Response {
+					Response: res,
+					Bytes: body,
+					Body: response,
+					Error: err,
+				}
 			}
 		} else if ga.DownloadDestination.Writer != nil {
 			_, err = io.Copy(ga.DownloadDestination.Writer, res.Body)
 			if err != nil {
-				return res, body, response, err
+				return Response {
+					Response: res,
+					Bytes: body,
+					Body: response,
+					Error: err,
+				}
 			}
 		} else {
-			return res, body, response, errors.New("download destination not provided")
+			return Response {
+				Response: res,
+				Bytes: body,
+				Body: response,
+				Error: errors.New("download destination not provided"),
+			}
 		}
 
-		return res, body, response, nil
+		return Response {
+			Response: res,
+			Bytes: body,
+			Body: response,
+			Error: nil,
+		}
 	} else {
 
 		data, err := ioutil.ReadAll(res.Body)
 		if err != nil {
-			return res, body, response, err
+			return Response {
+				Response: res,
+				Bytes: body,
+				Body: response,
+				Error: err,
+			}
 		}
 
 		// unmarshall

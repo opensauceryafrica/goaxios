@@ -2,8 +2,8 @@ package goaxios
 
 import (
 	"io"
-	"time"
 	"net/http"
+	"time"
 )
 
 type Interceptor struct {
@@ -47,11 +47,23 @@ type GoAxios struct {
 	// This is required if IsDownload is true.
 	DownloadDestination Destination
 	Interceptor Interceptor
+
+	 // OnDownload is an handler that's fired for any batch of byte written during a download event
+	OnDownload func(Event)
 }
 
 type Destination struct {
 	Location string
 	Writer   io.Writer
+}
+
+type Event struct {
+	Download DownloadEvent
+}
+
+type DownloadEvent struct {
+	TotalContentLength int64
+	CurrentContentLength int64
 }
 
 // Form is the struct used to pass parameters to request methods.
@@ -80,4 +92,15 @@ type FormFile struct {
 	Key string
 	// Handle is an io.ReadCloser to use instead of a file path. This has an xor relationship with Path. GoAxios will close this handle after reading it. If you handle does not implement io.Closer, then you can use io.NopCloser to wrap it.
 	Handle io.ReadCloser
+}
+
+type Response struct {
+	// The unfiltered *http.Respons object
+	Response *http.Response
+	// The response body as byte
+	Bytes []byte
+	// The unmarshalled response body
+	Body interface{}
+	// The error object (if any or nil)
+	Error error
 }
