@@ -46,9 +46,9 @@ type GoAxios struct {
 	// DownloadDestination is the path/writer to write the download to.
 	// This is required if IsDownload is true.
 	DownloadDestination Destination
-	Interceptor Interceptor
+	Interceptor         Interceptor
 
-	 // OnDownload is an handler that's fired for any batch of byte written during a download event
+	// OnDownload is an handler that's fired for any batch of byte written during a download event
 	OnDownload func(Event)
 }
 
@@ -62,7 +62,7 @@ type Event struct {
 }
 
 type DownloadEvent struct {
-	TotalContentLength int64
+	TotalContentLength   int64
 	CurrentContentLength int64
 }
 

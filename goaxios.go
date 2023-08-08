@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-// a tiny wrapper around Go's *http.Request object to make it quicker to run REST http requests.
+// RunRest is a tiny wrapper around Go's *http.Request object to make it quicker to run REST http requests.
 // It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)
 func (ga *GoAxios) RunRest() (Response) {
   
@@ -132,8 +132,10 @@ func (ga *GoAxios) RunRest() (Response) {
 		req.Body = r
 		req.Header.Add("Content-Type", writer.FormDataContentType())
 	} else {
-		closerBody := ioutil.NopCloser(bytes.NewReader(reqBody))
-		req.Body = closerBody
+		if ga.Body != nil {
+			closerBody := ioutil.NopCloser(bytes.NewReader(reqBody))
+			req.Body = closerBody
+		}
 		if ga.Headers == nil {
 			req.Header.Add("Content-Type", "application/json")
 		}
@@ -226,9 +228,14 @@ func (ga *GoAxios) RunRest() (Response) {
 	}
 }
 
-// a wrapper around Go's *http.Request object to make it faster to run GraphQL http requests.
+// RunGraphQL is a wrapper around Go's *http.Request object to make it faster to run GraphQL http requests.
 // It returns the *http.Response object, the response body as byte, the unmarshalled response body and an error object (if any or nil)
 func (ga *GoAxios) RunGraphQL() (*http.Response, []byte, interface{}, error) {
 
 	return new(http.Response), *new([]uint8), new(interface{}), nil
+}
+
+// URL is a getter for the URL property
+func (ga *GoAxios) URL() string {
+	return ga.Url
 }

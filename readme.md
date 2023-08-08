@@ -41,13 +41,13 @@ func main() {
         Url:    "https://anapioficeandfire.com/api/houses/1",
         Method: "GET",
     }
-    r, b, d, err := a.RunRest()
-    if err != nil {
-        fmt.Printf("err: %v", err)
+    res := a.RunRest()
+    if res.Error != nil {
+        log.Fatalf("err: %v", res.Error)
     }
-    fmt.Printf("Response Object: ", r)
-    fmt.Printf("Raw Body in Bytes: ", b)
-    fmt.Printf("Parsed Body: ", d)
+    fmt.Printf("Response Object: ", res.Response)
+    fmt.Printf("Raw Body in Bytes: ", res.Bytes)
+    fmt.Printf("Parsed Body: ", res.Body)
 }
 ```
 
@@ -73,9 +73,9 @@ func main() {
             "region": "The North",
         },
     }
-    _, _, _, err := a.RunRest()
-    if err != nil {
-        fmt.Printf("err: %v", err)
+    res := a.RunRest()
+    if res.Error != nil {
+        log.Fatalf("err: %v", res.Error)
     }
 }
 ```
@@ -99,9 +99,9 @@ func main() {
             "region": "The North",
         },
     }
-    _, _, _, err := a.RunRest()
-    if err != nil {
-        fmt.Printf("err: %v", err)
+    res := a.RunRest()
+    if res.Error != nil {
+        log.Fatalf("err: %v", res.Error)
     }
 }
 ```
@@ -129,9 +129,9 @@ func main() {
         Method: "GET",
         ResponseStruct: &House{},
     }
-    _, _, _, err := a.RunRest()
-    if err != nil {
-        fmt.Printf("err: %v", err)
+    res := a.RunRest()
+    if res.Error != nil {
+        log.Fatalf("err: %v", res.Error)
     }
 }
 ```
@@ -169,11 +169,11 @@ func main() {
         ResponseStruct: &[]ResponseStruct{},
         BearerToken:    token,
     }
-    _, _, response, err := a.RunRest()
-    if err != nil {
-        fmt.Printf("err: %v", err)
+    res := a.RunRest()
+    if res.Error != nil {
+        log.Fatalf("err: %v", res.Error)
     }
-    fmt.Println(response)
+    fmt.Println(res.Body)
 }
 ```
 
@@ -200,11 +200,11 @@ func main() {
             "client_id":     config.Env.TwitterClientID,
         },
     }
-    _, _, response, err := r.RunRest()
-    if err != nil {
-    fmt.Printf("err: %v", err)
+    res := r.RunRest()
+    if res.Error != nil {
+        log.Fatalf("err: %v", res.Error)
     }
-    fmt.Println(response)
+    fmt.Println(res.Body)
 }
 ```
 
@@ -233,11 +233,11 @@ func main() {
         },
         BearerToken: os.Getenv("TOKEN"),
     }
-    _, _, response, err := r.RunRest()
-    if err != nil {
-    fmt.Printf("err: %v", err)
+    res := r.RunRest()
+    if res.Error != nil {
+        fmt.Printf("err: %v", err)
     }
-    fmt.Println(response)
+    fmt.Println(res.Body)
 }
 ```
 
@@ -268,11 +268,11 @@ func main() {
         },
         BearerToken: os.Getenv("TOKEN"),
     }
-    _, _, response, err := r.RunRest()
-    if err != nil {
-    fmt.Printf("err: %v", err)
+    res := r.RunRest()
+    if res.Error != nil {
+        log.Fatalf("err: %v", res.Error)
     }
-    fmt.Println(response)
+    fmt.Println(res.Body)
 }
 ```
 
@@ -298,9 +298,9 @@ func main() {
 		},
 	}
 
-	_, _, _, err := a.RunRest()
-	if err != nil {
-		log.Fatalf("err: %v", err)
+	res := a.RunRest()
+	if res.Error != nil {
+		log.Fatalf("err: %v", res.Error)
 	}
 }
 ```
@@ -335,9 +335,9 @@ func main() {
 		},
 	}
 
-	_, _, _, err = a.RunRest()
-	if err != nil {
-		log.Fatalf("err: %v", err)
+	res = a.RunRest()
+	if res.Error != nil {
+		log.Fatalf("err: %v", res.Error)
 	}
 }
 ```
@@ -378,11 +378,11 @@ a := goaxios.GoAxios{
   },
 }
 
-_, _, response, err := a.RunRest()
-if err != nil {
-  t.Errorf("err: %v", err)
+res := a.RunRest()
+if res.Error != nil {
+    t.Errorf("err: %v", res.Error)
 }
-fmt.Println(response)
+fmt.Println(res.Body)
 ```
 
 ## Usage for GraphQL HTTP requests
