@@ -133,6 +133,9 @@ func main() {
     if res.Error != nil {
         log.Fatalf("err: %v", res.Error)
     }
+    houseData,_  := res.Body.(*House)
+    
+    fmt.Println(houseData.Name)
 }
 ```
 
