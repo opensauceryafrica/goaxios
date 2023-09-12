@@ -177,7 +177,7 @@ func main() {
         log.Fatalf("err: %v", res.Error)
     }
 
-    responseData,_  := res.Body.(*[]ResponseStruct])
+    responseData,_  := res.Body.(*[]ResponseStruct)
     fmt.Println(responseData.MembersURL)
 }
 ```
