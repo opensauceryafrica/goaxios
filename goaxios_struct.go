@@ -90,7 +90,7 @@ type FormFile struct {
 	Path string
 	// Key is the key to use for the file.
 	Key string
-	// Handle is an io.ReadCloser to use instead of a file path. This has an xor relationship with Path. GoAxios will close this handle after reading it. If you handle does not implement io.Closer, then you can use io.NopCloser to wrap it.
+	// Handle is an io.ReadCloser to use instead of a file path. This has an xor relationship with Path. GoAxios will close this handle after reading it. If your handle does not implement io.Closer, then you can use io.NopCloser to wrap it.
 	Handle io.ReadCloser
 }
 
