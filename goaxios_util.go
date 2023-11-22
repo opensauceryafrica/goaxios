@@ -33,17 +33,17 @@ func (ga *GoAxios) validateBeforeRequest() error {
 }
 
 // marshalls the response body based on the content type and user-defined struct, if any.
-func (ga *GoAxios) performResponseMarshalling(contentType string, response interface{}, data, body []byte, err error, res *http.Response) (Response) {
+func (ga *GoAxios) performResponseMarshalling(contentType string, response interface{}, data, body []byte, err error, res *http.Response) Response {
 	switch true {
 	case strings.Contains(contentType, "text/plain"):
 		if ga.ResponseStruct != nil {
 			err = json.Unmarshal(data, &response)
 			if err != nil {
-				return Response {
+				return Response{
 					Response: res,
-					Bytes: body,
-					Body: response,
-					Error: err,
+					Bytes:    body,
+					Body:     response,
+					Error:    err,
 				}
 			}
 		} else {
@@ -53,11 +53,11 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 		if ga.ResponseStruct != nil {
 			err = xml.Unmarshal(data, &response)
 			if err != nil {
-				return Response {
+				return Response{
 					Response: res,
-					Bytes: body,
-					Body: response,
-					Error: err,
+					Bytes:    body,
+					Body:     response,
+					Error:    err,
 				}
 			}
 		} else {
@@ -67,11 +67,11 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 		err = json.Unmarshal(data, &response)
 		if err != nil {
 			if ga.ResponseStruct != nil {
-				return Response {
+				return Response{
 					Response: res,
-					Bytes: body,
-					Body: response,
-					Error: err,
+					Bytes:    body,
+					Body:     response,
+					Error:    err,
 				}
 			} else {
 				err = nil
@@ -79,10 +79,10 @@ func (ga *GoAxios) performResponseMarshalling(contentType string, response inter
 			}
 		}
 	}
-	return Response {
+	return Response{
 		Response: res,
-		Bytes: data,
-		Body: response,
-		Error: err,
+		Bytes:    data,
+		Body:     response,
+		Error:    err,
 	}
 }
